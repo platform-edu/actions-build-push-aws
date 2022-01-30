@@ -1,10 +1,11 @@
 name: 'Deploy to Kubernetes'
 on:
   workflow_call:
-    microservice-name:
-      description: 'Microservice Name to build'
-      type: string
-      required: true
+    inputs:
+      microservice-name:
+        description: 'Microservice Name to build'
+        type: string
+        required: true
 jobs:
   deploy:
     name: Deploy on Kubernetes
