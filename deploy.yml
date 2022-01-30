@@ -10,8 +10,7 @@ jobs:
     name: Deploy on Kubernetes
     runs-on: ubuntu-latest
     environment:
-      name: ${{ inputs.environment }}
-      url: https://${{ inputs.application-domain }}    
+      name: ${{ inputs.microservice-name }}    
     permissions:
       id-token: write
       contents: read  
