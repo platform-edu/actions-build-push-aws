@@ -1,4 +1,3 @@
-name: 'Deploy to Kubernetes'
 on:
   workflow_call:
     inputs:
@@ -7,16 +6,11 @@ on:
         required: true
         type: string
 jobs:
-  print-username:
+  print-service-name:
     name: Deploy on Kubernetes
     runs-on: ubuntu-latest
-    permissions:
-      id-token: write
-      contents: read  
     steps:
-      - name: Config url
-        run: echo "${{ inputs.application-name }}"
+      - name: Print Service Name
+        run: echo service is ${{ inputs.application-name }}
       - name: Checkout
         uses: actions/checkout@v2
-
-       
