@@ -42,9 +42,9 @@ jobs:
         run:
             echo $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
             docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
-        - name: Deploy to Kubernetes cluster
-          uses: kodermax/kubectl-aws-eks@master
-          env:
-            RELEASE_IMAGE: ${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY }}:${{ env.RELEASE_REVISION }}
-          with:
-            args: set image deployment/items app=${{ env.RELEASE_IMAGE }} --record -n $KUBE_NAMESPACE
+      - name: Deploy to Kubernetes cluster
+        uses: kodermax/kubectl-aws-eks@master
+        env:
+          RELEASE_IMAGE: ${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY }}:${{ env.RELEASE_REVISION }}
+        with:
+          args: set image deployment/items app=${{ env.RELEASE_IMAGE }} --record -n $KUBE_NAMESPACE
