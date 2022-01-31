@@ -13,7 +13,6 @@ on:
       AWS_SECRET_ACCESS_KEY:
         description: 'AWS key secret'
         required: true
-        type: string
 
 jobs:
   print-service-name:
