@@ -4,16 +4,20 @@ on:
     inputs:
       application-name:
         description: 'Microservice Name to build'
-        type: string
         required: true
+        type: string
 jobs:
-  deploy:
+  print-username:
     name: Deploy on Kubernetes
     runs-on: ubuntu-latest
     permissions:
       id-token: write
       contents: read  
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-        run: echo service name is ${{ inputs.application-name }}
+     - name: Config url
+            id: config-url 
+            shell: bash
+            env:
+              SERVICE_NAME: ${{ inputs.application-name }}
+            run: |-
+              echo ${SERVICE_NAME}
