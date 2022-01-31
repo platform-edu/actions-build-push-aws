@@ -31,4 +31,5 @@ jobs:
         uses: aws-actions/amazon-ecr-login@v1
       - name: Checkout
         uses: actions/checkout@v2
-        run: docker-compose ${{ inputs.application-name }}_microservice/docker-compose.yml up -d
+      - name: Build the docker-compose stack
+      run: docker-compose ${{ inputs.application-name }}_microservice/docker-compose.yml up -d
