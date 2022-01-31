@@ -2,7 +2,7 @@ name: 'Deploy to Kubernetes'
 on:
   workflow_call:
     inputs:
-      microservice-name:
+      microserviceName:
         description: 'Microservice Name to build'
         type: string
         required: true
@@ -10,8 +10,6 @@ jobs:
   deploy:
     name: Deploy on Kubernetes
     runs-on: ubuntu-latest
-    environment:
-      application-name : ${{ inputs.microservice-name }}    
     permissions:
       id-token: write
       contents: read  
@@ -19,4 +17,4 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
         env:
-          SERVICE_NAME: ${{ environment.application-name }}
+          SERVICE_NAME: ${{ inputs.application-name }}
