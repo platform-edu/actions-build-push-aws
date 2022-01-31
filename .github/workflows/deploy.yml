@@ -48,4 +48,4 @@ jobs:
           RELEASE_IMAGE: ${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY }}:${{ env.RELEASE_REVISION }}
           KUBE_NAMESPACE: development
         with:
-          args: set image deployment/items app=${{ env.RELEASE_IMAGE }} --record -n $KUBE_NAMESPACE
+          args: set image items app=${{ env.RELEASE_IMAGE }} --record -n $KUBE_NAMESPACE
