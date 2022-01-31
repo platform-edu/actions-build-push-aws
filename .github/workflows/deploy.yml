@@ -6,7 +6,11 @@ on:
         required: true
         type: string
       image-tag:
-        description: 'Microservice Name to build'
+        description: 'Docker image tag'
+        required: true
+        type: string
+      repository:
+        description: 'ECR repository name'
         required: true
         type: string
     secrets:
@@ -42,13 +46,13 @@ jobs:
         id: build
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-          ECR_REPOSITORY: items
+          ECR_REPOSITORY: ${{ inputs.repository }}
           IMAGE_TAG: ${{ inputs.image-tag }}
         run: docker push ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY}}:${{ env.IMAGE_TAG }}
       - name: Deploy to Kubernetes cluster
         uses: kodermax/kubectl-aws-eks@master
         env:
-          RELEASE_IMAGE: ${{ steps.login-ecr.outputs.registry }}/${{ steps.login-ecr.outputs.repository }}:${{ inputs.image-tag }}
+          RELEASE_IMAGE: ${{ steps.login-ecr.outputs.registry }}/${{ inputs.repository }}:${{ inputs.image-tag }}
           KUBE_NAMESPACE: development
         with:
           args: set image items app=${{ env.RELEASE_IMAGE }} --record -n $KUBE_NAMESPACE
