@@ -15,7 +15,7 @@ jobs:
       contents: read  
     steps:
       - name: Config url
-        run: echo "${{ github.event.inputs.application-name }}"
+        run: echo "${{ inputs.application-name }}"
       - name: Checkout
         uses: actions/checkout@v2
 
