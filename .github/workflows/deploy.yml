@@ -35,6 +35,7 @@ jobs:
         run: docker-compose -f ${{ inputs.application-name }}_microservice/docker-compose.yml up -d
 
       - name: Build, tag, and push image to Amazon ECR
+        id: build
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           ECR_REPOSITORY: items
@@ -45,7 +46,7 @@ jobs:
       - name: Deploy to Kubernetes cluster
         uses: kodermax/kubectl-aws-eks@master
         env:
-          RELEASE_IMAGE: ${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY }}:${{ env.IMAGE_TAG }}
+          RELEASE_IMAGE: ${{ steps.login-ecr.outputs.registry }}/${{ env.build.ECR_REPOSITORY }}:${{ env.build.IMAGE_TAG }}
           KUBE_NAMESPACE: development
         with:
           args: set image items app=${{ env.RELEASE_IMAGE }} --record -n $KUBE_NAMESPACE
