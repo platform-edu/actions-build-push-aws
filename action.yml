@@ -16,5 +16,4 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-        env:
-          SERVICE_NAME: ${{ inputs.application-name }}
+        run: echo service name is ${{ inputs.application-name }}
