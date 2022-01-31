@@ -48,7 +48,7 @@ jobs:
       - name: Deploy to Kubernetes cluster
         uses: kodermax/kubectl-aws-eks@master
         env:
-          RELEASE_IMAGE: ${{ steps.login-ecr.outputs.registry }}/${{ steps.login-ecr.outputs.registry }}:${{ inputs.image_tag }}
+          RELEASE_IMAGE: ${{ steps.login-ecr.outputs.registry }}/${{ steps.login-ecr.outputs.repository }}:${{ inputs.image-tag }}
           KUBE_NAMESPACE: development
         with:
           args: set image items app=${{ env.RELEASE_IMAGE }} --record -n $KUBE_NAMESPACE
