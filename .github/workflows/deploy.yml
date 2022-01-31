@@ -5,6 +5,16 @@ on:
         description: 'Microservice Name to build'
         required: true
         type: string
+    secrets:
+      AWS_ACCESS_KEY_ID:
+        description: 'AWS key id'
+        required: true
+        type: string
+      AWS_SECRET_ACCESS_KEY:
+        description: 'AWS key secret'
+        required: true
+        type: string
+
 jobs:
   print-service-name:
     name: Deploy on Kubernetes
