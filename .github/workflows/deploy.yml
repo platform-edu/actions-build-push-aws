@@ -35,4 +35,8 @@ jobs:
         run: docker-compose -f ${{ inputs.application-name }}_microservice/docker-compose.yml up -d
 
       - name: Build, tag, and push image to Amazon ECR
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          ECR_REPOSITORY: items
+          IMAGE_TAG: items
         run: docker-compose -f ${{ inputs.application-name }}_microservice/docker-compose.yml push
