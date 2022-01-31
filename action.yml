@@ -18,6 +18,6 @@ jobs:
             id: config-url 
             shell: bash
             env:
-              SERVICE_NAME: ${{ inputs.application-name }}
+              SERVICE_NAME: ${{ github.event.inputs.application-name }}
             run: |-
               echo ${SERVICE_NAME}
