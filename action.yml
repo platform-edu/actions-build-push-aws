@@ -9,8 +9,10 @@ jobs:
   print-service-name:
     name: Deploy on Kubernetes
     runs-on: ubuntu-latest
+    environment:
+      name: ${{ inputs.application-name }}
     steps:
       - name: Print Service Name
-        run: echo service is ${{ inputs.application-name }}
+        run: echo service is ${ name }
       - name: Checkout
         uses: actions/checkout@v2
