@@ -14,10 +14,11 @@ jobs:
       id-token: write
       contents: read  
     steps:
-     - name: Config url
-            id: config-url 
-            shell: bash
-            env:
-              SERVICE_NAME: ${{ github.event.inputs.application-name }}
-            run: |-
-              echo ${SERVICE_NAME}
+      - name: Config url
+        env:
+          SERVICE_NAME: ${{ github.event.inputs.application-name }}
+        run: echo ${SERVICE_NAME}
+      - name: Checkout
+        uses: actions/checkout@v2
+
+       
