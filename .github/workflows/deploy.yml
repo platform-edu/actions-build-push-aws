@@ -65,7 +65,7 @@ jobs:
           HELM_RELEASE_NAME: items
         shell: bash
         run: |
-          export KUBECONFIG=${{ secret.kubeconfig }}
+          export KUBECONFIG=${{ secret.KUBE_CONFIG_DATA }}
           curl --silent --location "https://github.com/weaveworks/eksctl/releases/latest/download/eksctl_$(uname -s)_amd64.tar.gz" | tar xz -C /tmp && sudo mv /tmp/eksctl /usr/local/bin
           /usr/local/bin/eksctl utils write-kubeconfig --kubeconfig .kubeconfig --cluster ${KUBERNETES_CLUSTER_NAME} --region us-east-2
           kubectl rollout status deploy -n ${KUBERNETES_NAMESPACE} ${HELM_RELEASE_NAME}
