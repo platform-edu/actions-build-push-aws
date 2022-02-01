@@ -25,7 +25,7 @@ on:
         required: true
 
 jobs:
-  print-service-name:
+  deploy:
     name: Deploy on Kubernetes
     runs-on: ubuntu-latest
     steps:
