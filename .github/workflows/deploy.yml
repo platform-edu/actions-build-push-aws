@@ -50,12 +50,19 @@ jobs:
         run: |
           docker tag app ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY}}:${{ env.IMAGE_TAG }}
           docker push ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY}}:${{ env.IMAGE_TAG }}
-      - name: deploy to cluster
-        uses: kodermax/kubectl-aws-eks@master
+      - name: Set up Kubectl
+        run: |-
+          curl -sfLo kubectl https://dl.k8s.io/release/v1.22.0/bin/linux/amd64/kubectl
+          chmod u+x kubectl
+          sudo mv kubectl /usr/local/bin/kubectl
+      - name: Deploy EKS
         env:
-          KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA_STAGING }}
-          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-          ECR_REPOSITORY: ${{ inputs.repository }}
-          IMAGE_TAG: ${{ inputs.image-tag }}
-        with:
-          args: set image deployment/${{ env.ECR_REPOSITORY}} ${{ env.ECR_REPOSITORY}}=${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY}}:${{ env.IMAGE_TAG }}
+          KUBERNETES_CLUSTER_NAME: k8s_platform_edu
+          KUBERNETES_NAMESPACE: items_service
+          HELM_RELEASE_NAME: items
+        shell: bash
+        run: |
+          export KUBECONFIG=.kubeconfig
+          curl --silent --location "https://github.com/weaveworks/eksctl/releases/latest/download/eksctl_$(uname -s)_amd64.tar.gz" | tar xz -C /tmp && sudo mv /tmp/eksctl /usr/local/bin
+          /usr/local/bin/eksctl utils write-kubeconfig --kubeconfig .kubeconfig --cluster ${KUBERNETES_CLUSTER_NAME} --region us-east-2
+          kubectl rollout status deploy -n ${KUBERNETES_NAMESPACE} ${HELM_RELEASE_NAME}
