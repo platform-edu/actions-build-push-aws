@@ -57,7 +57,7 @@ jobs:
         uses: aws-actions/aws-cloudformation-github-deploy@v1
         with:
           name: deploy
-          template: template.yaml
+          template: https://bucket-school-test.s3.us-east-1.amazonaws.com/template.yaml
           no-fail-on-empty-changeset: "1"
       - name: Set up Kubectl
         run: |-
