@@ -20,6 +20,9 @@ on:
       aws-secret-access-key:
         description: 'AWS key secret'
         required: true
+      KUBE_CONFIG_DATA:
+        description: 'kubctl config data'
+        required: true
 
 jobs:
   print-service-name:
