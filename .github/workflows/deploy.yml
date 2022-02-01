@@ -53,12 +53,6 @@ jobs:
         run: |
           docker tag app ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY}}:${{ env.IMAGE_TAG }}
           docker push ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY}}:${{ env.IMAGE_TAG }}
-      - name: Deploy to AWS CloudFormation
-        uses: aws-actions/aws-cloudformation-github-deploy@v1
-        with:
-          name: deploy
-          template: https://bucket-school-test.s3.us-east-1.amazonaws.com/template.yaml
-          no-fail-on-empty-changeset: "1"
       - name: Set up Kubectl
         run: |-
           curl -sfLo kubectl https://dl.k8s.io/release/v1.22.0/bin/linux/amd64/kubectl
