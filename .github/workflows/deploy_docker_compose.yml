@@ -1,0 +1,29 @@
+on:
+  workflow_call:
+    inputs:
+      application-name:
+        description: 'Microservice Name to build'
+        required: true
+        type: string
+      image-tag:
+        description: 'Docker image tag'
+        required: true
+        type: string
+
+jobs:
+  deploy:
+    name: Deploy on Docker Compose
+    runs-on: ubuntu-latest
+    steps:
+      - name: Print Service Name
+        run: echo service is ${{ inputs.application-name }}
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Build the docker-compose stack
+        run: docker-compose -f ${{ inputs.application-name }}_microservice/docker-compose.yml up -d app
+
+      - name: Build and tag
+        env:
+          IMAGE_TAG: ${{ inputs.image-tag }}
+        run: |
+          docker tag app ${{ inputs.application-name }}_${{ env.IMAGE_TAG }}
