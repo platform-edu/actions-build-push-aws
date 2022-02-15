@@ -22,6 +22,8 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
+      - name: Run python tests
+        run: python ${{ inputs.application-name }}_microservice/manage.py test
 
       - name: Build the docker-compose stack
         run: docker-compose -f ${{ inputs.application-name }}_microservice/docker-compose.yml up -d app
