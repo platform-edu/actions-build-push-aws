@@ -23,6 +23,8 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Build the docker-compose stack
+        env:
+          NETWORK_NAME: oauth
         run: |
           if docker network ls --filter name=${{ env.NETWORK_NAME }} --format="{{ .Name }}" ; then
               echo "network oauth already exists. skip"
@@ -37,7 +39,6 @@ jobs:
       - name: Build and tag
         env:
           IMAGE_TAG: ${{ inputs.image-tag }}
-          NETWORK_NAME: oauth
         run: |
           docker network create oauth || true
           docker tag ${{ inputs.application-name }}_microservice_app ${{ inputs.application-name }}_${{ env.IMAGE_TAG }}
