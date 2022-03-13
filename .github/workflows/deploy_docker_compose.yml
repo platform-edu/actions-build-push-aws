@@ -33,8 +33,10 @@ jobs:
           IMAGE_TAG: ${{ inputs.image-tag }}
           NETWORK_NAME: oauth
         run: |
-          if [ -z $(docker network ls --filter name=${{ NETWORK_NAME }} --format="{{ .Name }}") ] ; then 
-               docker network create ${{ NETWORK_NAME }} ; 
+          if docker network ls --filter name=${{ NETWORK_NAME }} --format="{{ .Name }}" ; then
+              echo "network oauth already exists. skip"
+          else
+              docker network create ${{ NETWORK_NAME }} ;
           fi
           docker network create oauth || true
           docker tag ${{ inputs.application-name }}_microservice_app ${{ inputs.application-name }}_${{ env.IMAGE_TAG }}
