@@ -32,4 +32,5 @@ jobs:
         env:
           IMAGE_TAG: ${{ inputs.image-tag }}
         run: |
+          docker network create oauth
           docker tag ${{ inputs.application-name }}_microservice_app ${{ inputs.application-name }}_${{ env.IMAGE_TAG }}
