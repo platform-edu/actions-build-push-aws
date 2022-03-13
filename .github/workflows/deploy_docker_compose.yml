@@ -32,4 +32,4 @@ jobs:
         env:
           IMAGE_TAG: ${{ inputs.image-tag }}
         run: |
-          docker tag ${{ inputs.application-name }}-app ${{ inputs.application-name }}_${{ env.IMAGE_TAG }}
+          docker tag ${{ inputs.application-name }}_microservice_app ${{ inputs.application-name }}_${{ env.IMAGE_TAG }}
