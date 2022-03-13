@@ -23,7 +23,13 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Build the docker-compose stack
-        run: docker-compose -f ${{ inputs.application-name }}_microservice/docker-compose.yml up -d
+        run: |
+          if docker network ls --filter name=${{ env.NETWORK_NAME }} --format="{{ .Name }}" ; then
+              echo "network oauth already exists. skip"
+          else
+              docker network create ${{ env.NETWORK_NAME }} ;
+          fi
+          docker-compose -f ${{ inputs.application-name }}_microservice/docker-compose.yml up -d
 
       - name: Run python tests
         run: docker-compose -f ${{ inputs.application-name }}_microservice/docker-compose.yml run app python manage.py test -v 3
@@ -33,10 +39,5 @@ jobs:
           IMAGE_TAG: ${{ inputs.image-tag }}
           NETWORK_NAME: oauth
         run: |
-          if docker network ls --filter name=${{ env.NETWORK_NAME }} --format="{{ .Name }}" ; then
-              echo "network oauth already exists. skip"
-          else
-              docker network create ${{ env.NETWORK_NAME }} ;
-          fi
           docker network create oauth || true
           docker tag ${{ inputs.application-name }}_microservice_app ${{ inputs.application-name }}_${{ env.IMAGE_TAG }}
