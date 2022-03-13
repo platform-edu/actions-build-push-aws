@@ -26,10 +26,10 @@ jobs:
         env:
           NETWORK_NAME: oauth
         run: |
-          if docker network ls --filter name=${{ env.NETWORK_NAME }} --format="{{ .Name }}" ; then
-              echo "network oauth already exists. skip"
+          if docker network ls | grep oauth -q ; then 
+                  echo "network oauth already exists. skip"
           else
-              docker network create ${{ env.NETWORK_NAME }} ;
+                  docker network create oauth ;
           fi
           docker-compose -f ${{ inputs.application-name }}_microservice/docker-compose.yml up -d
 
