@@ -26,10 +26,10 @@ jobs:
         env:
           NETWORK_NAME: oauth
         run: |
-          if docker network ls | grep oauth -q ; then 
+          if docker network ls | grep oauth2 -q ; then 
                   echo "network oauth already exists. skip"
           else
-                  docker network create oauth ;
+                  docker network create oauth2 ;
           fi
           make update-env
           make build-${{ inputs.application-name }}
