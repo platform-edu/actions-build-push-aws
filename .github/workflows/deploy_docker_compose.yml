@@ -34,7 +34,7 @@ jobs:
           docker-compose -f ${{ inputs.application-name }}_microservice/docker-compose.yml up -d
 
       - name: Run python tests
-        run: docker-compose -f ${{ inputs.application-name }}_microservice/docker-compose.yml run app python manage.py test -v 3
+        run: make build-${{ inputs.application-name }}
 
       - name: Build and tag
         env:
