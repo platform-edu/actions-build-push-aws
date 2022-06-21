@@ -31,10 +31,12 @@ jobs:
           else
                   docker network create oauth ;
           fi
+          make update-env
+          make build-${{ inputs.application-name }}
           docker-compose -f ${{ inputs.application-name }}_microservice/docker-compose.yml up -d
 
-      - name: Run python tests
-        run: make build-${{ inputs.application-name }}
+#       - name: Run python tests
+#         run: make test-${{ inputs.application-name }}
 
       - name: Build and tag
         env:
