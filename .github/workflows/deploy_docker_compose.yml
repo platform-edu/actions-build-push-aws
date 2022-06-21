@@ -24,10 +24,10 @@ jobs:
 
       - name: Build the docker-compose stack
         env:
-          NETWORK_NAME: oauth
+          NETWORK_NAME: oauth2
         run: |
           if docker network ls | grep oauth2 -q ; then 
-                  echo "network oauth already exists. skip"
+                  echo "network oauth2 already exists. skip"
           else
                   docker network create oauth2 ;
           fi
